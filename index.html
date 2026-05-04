@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Deluxe Barber — Naroči se online. Ločica ob Savinji.">
+<meta name="theme-color" content="#0A0A0A">
+<title>Deluxe Barber — Online naročanje</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0A0A0A;font-family:'Outfit',sans-serif;color:#fff}
+input::placeholder{color:#555}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes checkPop{0%{transform:scale(0) rotate(-45deg);opacity:0}50%{transform:scale(1.2) rotate(0)}100%{transform:scale(1) rotate(0);opacity:1}}
+@keyframes barLoad{from{width:0%}to{width:100%}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>const LOGO_SRC='data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAC/AMUDASIAAhEBAxEB/8QAHAABAAEFAQEAAAAAAAAAAAAAAAcBAgQGCAUD/8QARRAAAQMDAgMEBQgHBQkAAAAAAQACAwQFEQYhBxIxEyJBUQgUMmFxFTNygZGhsbMWNkJSdHXBIzVisuEXJENTVHOSo/D/xAAaAQEAAwEBAQAAAAAAAAAAAAAAAgMEAQUG/8QAKxEAAgIBAwMDBAEFAAAAAAAAAAECAxEEEiEFMUETYXEyMzRRoRQiJIGR/9oADAMBAAIRAxEAPwDkpERWkAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIi42kMZCKuEwFHeS2lEVyLm8bS1FXATC7vG0oiIpJpkWsBERdAREQBERAEREAREQBERAEREARBurlCUv0SUSmwGSfrKqs/T89pp7pHLe6Cqr6IA88NPU9g93lh2Cps4f6J4Vaztj6m1014ZLTnlqKeeuLZIieh22IOOo8li1GpVC3STwaKqXa8RZAn9EO2M7ZXULOCugy4Yo7kT5G4O3+5aJeIuA1orJaZ8F5rJonmORkEkrg1w695xbnBGNis9fU67eIRb/wBFstHOH1NEMZHmqqVm3XgUZOV+nNQsZ+/2ryfsEi9Kg03wQv72x27UVfbZn+zHUTmPJ8v7RnKevTmVr1mFlwePgitPnhSRC6EEdQQpq1HwCrIo3y6ev0VUMczYaxnZE/B7SW/WQPiol1BY7vp+vFBebdPQz4y1sjcB482kbOHvCsq1dN30PkrspnX9SPPVCFXwyi0ZKy1FcrTsrIy/ZBxCIimRCIiAIiIAiIgCIiAIiqNlCTwdiiqIirJjYblTH6KxcNSXxnMcGhjJHhkS7H71DZUyeit+tF7/AJez80LD1L8WXwadJ92J0LH8836Y/FcT6k/WK6/x0/5jl2vH88z6Q/FcTai/WC5fxs/5jl5XQe8zZ1HsjBQ9CiL6M8ok3g1xMrNNV0Fnu88k1ilfy993M6kJ6Oaf3PNvvzthdD6jslp1La5LbeKZlVSPGQdstOM87HDcHB2P2rivAOx/0+tdAcJNbXq66RodOWmOhlutEyRk9TcHOMMMDT/ZZ5d3vcCWgeTCV4fUtFlq2rhnpaO/hwnyRRxM0ZWaJ1A6inkfUUdQTJR1RGBKweBHg4ZGR9a1bwyupL9QScTOD1PUy0jIbnPTCspmgZDJmkgNaevK8Dp7wuWyCHEEFrgd2kYx4Y+K3aHUu+DUvqXDM2pp9OeV2YREW4zlqKp3VFZF5K5LAREUzgREQBERAEREBUdVVUHRVVLeWWJYCIi4AVMforfrRfP5e380KHCpi9FYj9K72M9be380LD1L8afwadL92J0NF84z6Y/FcS6hIOoLkR/1s/5jl23H8+z6Y/ELiK+/35X/AMVN+Y5eV0HvM29R7Iw0RF9GeSPd5qVeAVTWU0l4pfUaqaO8UjqWnMTmsc6RmOctc7bLGSueR1w33rQNJWCt1Jfae1UY5XSHmfKRlsTAd3nzxsMeJIHipGoNS0dFxX0rYrCWMs1nrRSNI/4z5Msle4+Ptn4nmPiFj1bThKC54yaKVhqTJl4bVjpNNxWuohbT3CxuFsqogMBrogA1zf8AC9vK4fWuYuKFujtPES/UETeWNlY58Yx0Y/vt+5w+xdMUTTQcV7lTgcsd1tENXjzlhk7JzviWvb9i5/4/ho4r3Yt8WwZ+PYsXl9Lf+Q8dmsmzWLNS9ng0NERfQHmBUPVVVD0XU8M41koiIrisIiIAiIgCIniuPsF3LkRFSWhERDhQ9FMHosfrfeP5aPzWqHz0Uv8Aos/rfeP5aPzWrD1L8afwadL92J0XH8/H/wBwfiuIr5/flx/i5vzHLt2L59n0x+IXEd+/v25fxkv+dy8roP1TNvUeyMI7Ak9B1VRzZw0Hm6AAZOc4Vp8FLPAPQzrtcY9S3GL/AHenefUQRntJWnBlA/dZsB4F5HkV7110aa3OR5tdbsltRvHC/TtBw90bU6k1Dyw1DGCerJxlpHswNHu2G3Vzv8IUKcPImV/E6xMp4nRxvu0b2Re1yM7Tmxn3AY+olbl6Qesm3a7t0ra3gW23ENmMbstlnGQd/FrOnvPMViejdaXXHiKyvc0uittO+dxx0e7uMH3uP1Lzq1KNE7rO8kapNStjXHwTpeTjilp17R3pbbcIz8OaFwXNPF6t+UOJuoKgEFrawwtI6EMAYP8AKp/13fabT+sqa71bmlto0/V1OM+1JJLFHG34lzeniAVyzUTTVFTJUTvL5ZXufIT1Licn78qvpVTf9/sietmktvuWIiL2jzwiIgLUTxRXLsVMIiLoCIiAJ4oi4+x1dy5ERUlgRE8Mpk4B1Uu+iwD+l93Hj8mD81qjGwWa6X64tt9nopayqc0vEUZbnA6nc4XQ3AXh7ctJRVt0vLGRV9UxkTKeN4f2UfUlxG3MTjodsFed1OyMdPKOeWa9HBuxMlOH59n0m/iuJL9tfrkD19cm/Mcu2+WQODwx2WkOG3l5KD9V8B6+tu1XXWi+wFtRO6Uw1UDwWlxJIDm5z18l4/SLoUSkrOMm7W1uxLbyQVTdj6xEKgu7EvaJOXry5Gce/Gce/Cn/AFVxP0xZNAMo9GV0brhVQ9hSxMY4GiiDeUF2dg4NyB4lzi5ap/sF1p2pZ6zaGs/5nbSfhyZXr2/gjarcBNqnWFJAxoy6Kn5YgT9OQ7eP7K9XU3aW1pylnHhGOqu6GUlgh2z2u43q6Q2620stXWzvHKxuXEnzJ8AOpPguhvR7t1FYtLwetVVOy6X+pkfDHzAOmjh7oLB1I9p237wXyGtuFnD63yUWnYoa+oc3Dm0WXuk+nO7bHn1Hj4KM7bxWvts05HZbdQWyMUrZI6GsfGXT0sTznlDumRk97AztlRt9XW17YxaRKvZp5bm8s+HHO/C88R7iKeUupKQMo2YdkO7Id4+8c7nLRcEAZ8vNCcknvHmOSXHJJ9//AN5ovSprVUFBeDHZNzm2ERFYQCIiHS3xREVy7FT7hERdAREQBERAXBFQKqpfBYX08MlRMyCFhfJIeVgHiftC2Z/DzW7GNL9M1oDgMZ5O9kAjHe32I+1aq4A7OAOfMZUrcYt+GXDoYGPUHHfcDuR+/wA1luscZxivJbXBSTb8EaXK33C01bqa4UVTQVUY5uzmY6N4Hn8F7dv0brSut0VxorRXz0creaOeOQcpB9/N9y3fRLRrPg7qK23cmqlsLDUW2qk70kI5HP5A4747hGOm6v0tb33T0dLrSR1NHSOdeG8stVUCKJozGcOc7Yddh45VNmp8NLKeP+lsKffjGSP71pzVtkooq662+40VLLL2Ucr5O69+CeUEOO+BlfV2m9ax2YXn1G4i3nvCpNQAzHTrzea+mrbbc9O2O3WaW601ZR3FguBhppBLA17XyRN5H5OdubOP6LbK859GChyct+WjyjO3tSbKUpYUeE8vByK5a57Eb00lxr52UtPPVVEsp5QztyCT9ZWVqTTN+09yPv1qnoe03jEwaSff1J+teQRzDoCOo3yApW9JkD9MbRgYAtUZHd/xu/0VspbLYwS75IRjvg232NCOmNQCxG/i1zfJTfaqeZnZg/8Al13G3vWVBofVtRam3SCw1b6J0Zk9YBbyco6uznbH2rOPIOCTOmP0mOcZzj1b/VexwLvsUN5m0fdad1XZ79zU8kXISWTYwHAZzgjIJ+B8Co2W2RhKcfD/AIJQrg5KL8mnWPTN/vkE9RaLVUVjKY4mdGW9zbOSCc4x49OiusGltRX/ALc2S0VFeYH8sohcw8p+Gc/0W1cS7edB0A0ZQ9q5tcBV11c9vIauPmIiibg45GYJd5vPwXo+jKAda3RrR3japANht34x8AFyeoaqdseV4CqW9QZp1RoTWMFDUVs2nawUtOwyTyAsIjaBkk4JwNitc2wCMY+8Lcm2C66bsFy1FR3+1OGW0UsVDWNqO0bO17SH8uzRgHqOvwWm4x78+PnjorqpuXkrnHaEKKhVxWUREVxWEREAREQBERAPFXK1VHkq5rySi/BfGOZwb3RnxccAfEqV+IIs180ZpG10Wq9OetWim7GqElY5oLi1gBB5SCO6eiibwWw8PNNs1bqOKwi5CgnqGOMbzAXtJbvg4IxsCc+73rLdXF4m3jaaKpNZil3Nm/SOy6S4eXLTVkr2Xi8XokVtXCxzaeBmMcrC8ZecZHTG6zbLPZ38DarTTtR2WmuFVXCqjimqSOVnMw4cQNjhp2WvM0K6vt94qNPXyC4utBc6spn0z4Xhozl7ckhw2PkfctUtFFUXO50luosvmrJmQRDl/ac4D+uVSqYTTw+c5J+pKLSa9jYq6y2uj0pVVVbqq23C5Qujht9DRVTpORpkzI493p129+Vtbp7PV8D6DS7NTWOO6MrjVuZLU8oazvEAnl2cM9Fp/EXSNRo+609E+sZX09TStqYKqJuGSNJwcdemPvCytGaOp9RWG73iS+GibaoxLVR+qOkyzqCCHAE7HPwSSjKEZuXGciLcZOODDv1js1t0sypZqO33O7TVfKaehlc5kEHKSXEloy4ux47brdNbTWLiNQWm70+pLXaL3SUYpa2juLzEDgk8zH4Id1K067aPlg0q3VNquUF3tDZBDPLHC6Kaneegex3Qb9QSNx5hZGlNG0160pdr/PfPUYrVympiFG6QgOOxaQ8B2V2ai0puXKff58HItp7ccMs1LXW636So9KWy4sub4659fV1cLXdj2jmBjY4y4ZcA3OXEb52WbRG26X0NUV1vvVsqtRV49WcyOo5pKKmeCHcu3tu2DiPZBPmvM1Lo+otOn6HUVJcKe52etd2cdREx0bmSb9x8buh2PiRt1XoDRlui0Rb9V1Wo3QUdbUersibbnSOZK0HIIDxtsd11utxSzxn+TiUlJto2inuVi1hwkprVqXUNrt18txcLbPPOedzAMASbEgEYHTfDSPFYHAW4Wmw6mulber1aqKD1R1I3tJz33FzSCwcpyzunvLS77a7XQOoJKK/xXKirIzI+WOmLHU+H8rmvjLs5xgjfotmvnD232i82+zTavhZVXCFk1M6a3yNhw/2eZwceUnp0KhKqG1wzxL+CanLO7HYw9O6atLaqSO763ssVt5TJLHR1j3STlgJY0DlABJOMnputKHsjHjuclejqWzXHT97qbNdIexqqdwDmh2WkEZa4HxBG4Xn4wFqrjxnPcom8hW+KqfJUV8V5KpPwERFYRCIiAIiIAiIgCIiAqCt+9HzI4uWffl2mP/qfutA+BwvX0rqK56ZubbnaTSsrGtLWSzU7ZSzPUtDtgcePlnzWa+pzg4ryXVTUZJsk/Rb6W+1esNL2CnNhuVXHPJJW9oagTxseeaM82OzBznIWncLqWGCS7ahqqyChjtlE6KnqJ+YsZVTgsj9kE90c7un7IWEddagZTVsFG6htwrwW1clHRRwyTA7kOe0Zwc74Xnx6hr4tMv07HHR+oOkExb6q3nMgyA7n65wSPgfesaosSa/eDQ7Ytpkiasoqe88EqCtp7rSXas0zUGmmnpWyBpgedgQ9rXbZb4Y2KxeDYp2aE4g+uxyy04oI+1ZHIGOc0B+QHEEA9OoPVafp/Vt3sVorbTb3UPqtdtVMmpGydqMYAJd4eWOit0/q682O1Vlst7KEUtcCyqbJTMeZW7gNc474GdvII9NP03D3yPVTkpP9G866ZFauDtri0oxx0/dpmzV80zuedlS0fNvIwAO7joN2hfHhY+CHhVr2WrpDUQgU5MPalheMkYyNxvhaZaNX3q16eqrBTyUs1sqJOeSmqqVszebAGRzdOmdvHdVsOr7zY7JVWahFv9TrDmpjmo2S9t5B7iMkDw8kemnscPfI9aO5S9jcdU8t84NW+7WYSWyz2qtME1qI5w6ZxP8AbCU95/tHYjZfeWpoqX0ebC64W35RjN4na2P1h0OHd/fmbv0yMdN8rQb5qe83i109qqZoIrfTEuho6WBkEQfvl3K0AF3vPvWaNcXoWKlsUsNplttMeaOCS2xSAOx7e/7Rydz5p/TySS/TyPVi2/jB5uq5qWsuE1ztdtfb7ZMAyCPGQ0sjaHtDv2iDvk77+9TnqG36YunFTS9BeWVXrjrRBJSP7ZogklbzOYx7cc2CR+94KEbzqS43b5PjrIre2G38wp4IaSOKJgcQXd1owc4HVfbUOsr5fq2hrq51O2roMCmmgp2wuY1pBa3ujcAjYLttEp48YychYo5LuI9feblra61N/a1lxbOY5Y2N5WR8uzWtB3xgArXSV7WrtT3TVFeK67CkkqQMGaKmbE9/0sdfrXiLZTBqKTM9ssyygiItBUEREAREQBERAEREAREQBERAMqoKoig4JnUy5FamSouLJbkXIqZKZK4osZRVFbkouqDzkOSKkqmURTUSOQiIpHAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgP/Z';</script>
+<script type="text/babel">
+const { useState, useEffect, useCallback, useRef } = React;
+
+const SERVICES = [
+  { id:"strizenje", name:"Striženje", price:15, duration:40, icon:"✂️" },
+  { id:"strizenje_brada", name:"Striženje + Brada", price:20, duration:55, icon:"💈" },
+  { id:"skin_fade", name:"Skin Fade Deluxe", price:20, duration:50, icon:"🔥" },
+  { id:"vip", name:"VIP Paket", desc:"Striženje + Brada + Styling", price:30, duration:70, icon:"👑" },
+];
+const WORK_HOURS = { start:10, end:19 };
+const WORK_DAYS = [1,2,3,4,5];
+const PHONE_DISPLAY = "031 236 541";
+const ADMIN_PIN = "1234";
+const SLOT_INTERVAL = 30;
+const STORAGE_KEY = "begi-deluxe-bookings";
+const TG_TOKEN = "8670560691:AAHSxjxvqGCmzHq1X7JT67GlSlQEdLZKooE";
+const TG_CHAT_ID = "5629446369";
+
+const gold="#D4AF37",goldLight="#F5D76E",dark="#0A0A0A",darkCard="#141414",darkBorder="#222";
+
+function fmtDate(d){return d.toISOString().split("T")[0]}
+function dayName(d){return d.toLocaleDateString("sl-SI",{weekday:"short"})}
+function longDate(d){return d.toLocaleDateString("sl-SI",{weekday:"long",day:"numeric",month:"long"})}
+function isWorkDay(d){return WORK_DAYS.includes(d.getDay())}
+function getNext14(){const o=[];let d=new Date();d.setDate(d.getDate()+1);while(o.length<14){if(isWorkDay(d))o.push(new Date(d));d.setDate(d.getDate()+1)}return o}
+function genSlots(dur){const s=[];for(let m=WORK_HOURS.start*60;m+dur<=WORK_HOURS.end*60;m+=SLOT_INTERVAL){s.push(`${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`)}return s}
+function timeToMin(t){const[h,m]=t.split(":").map(Number);return h*60+m}
+function minToTime(m){return`${String(Math.floor(m/60)).padStart(2,"0")}:${String(m%60).padStart(2,"0")}`}
+
+async function sendTG(text){try{await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({chat_id:TG_CHAT_ID,text,parse_mode:"Markdown"})})}catch(e){console.error("TG:",e)}}
+
+function loadB(){try{const d=localStorage.getItem(STORAGE_KEY);return d?JSON.parse(d):{}}catch{return{}}}
+function saveB(d){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(d));return true}catch{return false}}
+
+function App(){
+  const[step,setStep]=useState(0);
+  const[service,setSvc]=useState(null);
+  const[date,setDate]=useState(null);
+  const[time,setTime]=useState(null);
+  const[name,setName]=useState("");
+  const[phone,setPhone]=useState("");
+  const[bookings,setBk]=useState({});
+  const[loading,setLoad]=useState(true);
+  const[anim,setAnim]=useState(false);
+  const[done,setDone]=useState(false);
+  const[isBooking,setIsB]=useState(false);
+  const[showAdmin,setSA]=useState(false);
+  const[adminAuth,setAA]=useState(false);
+  const[adminPin,setAP]=useState("");
+  const ref=useRef(null);
+
+  useEffect(()=>{setBk(loadB());setLoad(false)},[]);
+
+  const go=(s)=>{setAnim(true);setTimeout(()=>{setStep(s);setAnim(false);ref.current?.scrollTo({top:0,behavior:"smooth"})},200)};
+
+  const isSlotTaken=useCallback((dateObj,timeStr,dur)=>{
+    const ds=fmtDate(dateObj),startM=timeToMin(timeStr);
+    for(let m=startM;m<startM+dur;m+=SLOT_INTERVAL){if(bookings[`${ds}_${minToTime(m)}`])return true}
+    return false;
+  },[bookings]);
+
+  const handleBook=async()=>{
+    if(!name.trim()||!phone.trim()||isBooking)return;
+    setIsB(true);const ds=fmtDate(date),startM=timeToMin(time),latest=loadB();
+    for(let m=startM;m<startM+service.duration;m+=SLOT_INTERVAL){
+      if(latest[`${ds}_${minToTime(m)}`]){alert("Ta termin je bil pravkar zaseden.");setBk(latest);setIsB(false);go(3);return}
+    }
+    const bk={service:service.id,serviceName:service.name,name:name.trim(),phone:phone.trim(),price:service.price,duration:service.duration,bookedAt:new Date().toISOString()};
+    for(let m=startM;m<startM+service.duration;m+=SLOT_INTERVAL){latest[`${ds}_${minToTime(m)}`]=m===startM?bk:{blocked:true,parentKey:`${ds}_${time}`}}
+    saveB(latest);setBk(latest);
+    await sendTG(`💈 *NOVA REZERVACIJA*\n\n👤 *${name.trim()}*\n📱 ${phone.trim()}\n✂️ ${service.name} — ${service.price}€\n📅 ${longDate(date)}\n🕐 ${time}\n⏱ ${service.duration} min`);
+    setDone(true);setIsB(false);go(5);
+  };
+
+  const handleCancel=async(key)=>{
+    const latest=loadB(),bk=latest[key];if(!bk||bk.blocked)return;
+    const ds=key.split("_")[0],startM=timeToMin(key.split("_")[1]);
+    for(let m=startM;m<startM+(bk.duration||40);m+=SLOT_INTERVAL){delete latest[`${ds}_${minToTime(m)}`]}
+    saveB(latest);setBk(latest);
+    const d=new Date(ds+"T12:00:00");
+    await sendTG(`❌ *ODPOVED*\n\n👤 ${bk.name}\n🕐 ${key.split("_")[1]}\n📅 ${longDate(d)}`);
+  };
+
+  const dates=getNext14();
+
+  if(loading)return(<div style={{minHeight:"100vh",background:dark,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:24}}><img src={LOGO_SRC} alt="Logo" style={{width:80,height:80,borderRadius:"50%",objectFit:"cover"}}/><div style={{width:120,height:2,background:"#222",borderRadius:1,overflow:"hidden"}}><div style={{height:"100%",background:`linear-gradient(90deg,${gold},${goldLight})`,animation:"barLoad 1.5s ease forwards"}}/></div></div>);
+
+  if(showAdmin){
+    if(!adminAuth)return(
+      <div style={S.container} ref={ref}>
+        <Header onAdmin={()=>setSA(false)} isAdmin/>
+        <div style={{...S.content,paddingTop:40,textAlign:"center"}}>
+          <h2 style={S.stepTitle}>Admin prijava</h2>
+          <p style={{color:"#666",fontSize:14,marginBottom:24}}>Vnesi PIN</p>
+          <input style={{...S.input,maxWidth:200,textAlign:"center",margin:"0 auto",display:"block",letterSpacing:8,fontSize:24}} type="password" maxLength={4} value={adminPin} onChange={e=>setAP(e.target.value)} onKeyDown={e=>{if(e.key==="Enter"&&adminPin===ADMIN_PIN)setAA(true)}} placeholder="• • • •" autoFocus/>
+          <button style={{...S.ctaBtn,marginTop:24,opacity:adminPin.length===4?1:0.4}} disabled={adminPin.length!==4} onClick={()=>{if(adminPin===ADMIN_PIN)setAA(true);else{setAP("");alert("Napačen PIN")}}}>PRIJAVA</button>
+        </div>
+      </div>
+    );
+    const entries=Object.entries(bookings).filter(([_,v])=>!v.blocked).sort(([a],[b])=>a.localeCompare(b));
+    const grouped={};entries.forEach(([k,v])=>{const d=k.split("_")[0];if(!grouped[d])grouped[d]=[];grouped[d].push({key:k,...v,time:k.split("_")[1]})});
+    return(
+      <div style={S.container} ref={ref}>
+        <Header onAdmin={()=>{setSA(false);setAA(false);setAP("")}} isAdmin/>
+        <div style={S.content}>
+          <div style={{...S.stepHeader,paddingTop:24}}><div style={S.stepInfo}><span style={{fontSize:28}}>⚙️</span><h2 style={S.stepTitle}>Admin panel</h2></div></div>
+          <button style={{...S.resetBtn,marginBottom:20}} onClick={()=>setBk(loadB())}>🔄 OSVEŽI</button>
+          {Object.keys(grouped).length===0?<div style={{textAlign:"center",padding:40}}><p style={{color:"#555"}}>Ni rezervacij.</p></div>
+          :Object.entries(grouped).sort(([a],[b])=>a.localeCompare(b)).map(([ds,items])=>{
+            const d=new Date(ds+"T12:00:00");
+            return(<div key={ds} style={{marginBottom:24}}>
+              <h3 style={{fontFamily:"'Playfair Display',serif",fontSize:16,color:gold,margin:"0 0 12px",fontWeight:700}}>{longDate(d)}</h3>
+              {items.sort((a,b)=>a.time.localeCompare(b.time)).map(it=>(
+                <div key={it.key} style={S.adminCard}>
+                  <div style={{flex:1}}>
+                    <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:4,flexWrap:"wrap"}}>
+                      <span style={{color:gold,fontWeight:700,fontSize:16,fontFamily:"'Playfair Display',serif"}}>{it.time}</span>
+                      <span style={{color:"#666"}}>·</span>
+                      <span style={{color:"#bbb",fontSize:13}}>{it.serviceName}</span>
+                      <span style={{color:gold,fontSize:13,fontWeight:600}}>{it.price}€</span>
+                    </div>
+                    <div style={{display:"flex",gap:12,fontSize:12,color:"#666",flexWrap:"wrap"}}>
+                      <span>👤 {it.name}</span><span>📱 {it.phone}</span><span>⏱ {it.duration}min</span>
+                    </div>
+                  </div>
+                  <button style={S.cancelBtn} onClick={()=>{if(confirm(`Odpoveš ${it.name} ob ${it.time}?`))handleCancel(it.key)}}>✕</button>
+                </div>
+              ))}
+            </div>)
+          })}
+        </div>
+      </div>
+    );
+  }
+
+  return(
+    <div style={S.container} ref={ref}>
+      <div style={{position:"absolute",inset:0,background:"linear-gradient(135deg,rgba(212,175,55,0.03) 0%,transparent 50%,rgba(212,175,55,0.05) 100%)",pointerEvents:"none"}}/>
+      <Header onAdmin={()=>setSA(true)}/>
+      <div style={{...S.content,opacity:anim?0:1,transform:anim?"translateY(10px)":"none",transition:"all 0.22s ease"}}>
+
+        {step===0&&(
+          <div style={{paddingTop:32,animation:"fadeUp 0.5s ease"}}>
+            <div style={S.heroCard}>
+              <div style={S.heroGlow}/>
+              <img src={LOGO_SRC} alt="Deluxe Barber" style={{width:100,height:100,borderRadius:"50%",objectFit:"cover",margin:"0 auto 24px",display:"block",position:"relative",border:`2px solid ${gold}`}}/>
+              <h2 style={S.heroTitle}>Naroči se<br/><span style={S.heroGold}>online</span></h2>
+              <p style={S.heroDesc}>Izberi storitev, termin in potrdi.<br/>Hitro. Preprosto. Brez čakanja.</p>
+              <button style={S.ctaBtn} onClick={()=>go(1)} onMouseEnter={e=>{e.target.style.background=`linear-gradient(135deg,${gold},${goldLight})`;e.target.style.color="#000"}} onMouseLeave={e=>{e.target.style.background="transparent";e.target.style.color=gold}}>REZERVIRAJ TERMIN</button>
+            </div>
+            <div style={S.infoGrid}>
+              {[["📍","Ločica ob Savinji"],["🕐","Pon–Pet · 10:00–19:00"],["📱",PHONE_DISPLAY],["💎","VIP service available"]].map(([i,t],n)=>(
+                <div key={n} style={S.infoItem}><span style={{fontSize:18}}>{i}</span><span style={S.infoTxt}>{t}</span></div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {step===1&&(
+          <div>
+            <StepHead n="01" t="Izberi storitev" back={()=>go(0)}/>
+            <div style={S.svcGrid}>
+              {SERVICES.map(s=>(
+                <button key={s.id} style={{...S.svcCard,...(service?.id===s.id?S.svcActive:{})}} onClick={()=>{setSvc(s);setTimeout(()=>go(2),250)}}>
+                  <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                    <span style={{fontSize:24}}>{s.icon}</span>
+                    <span style={{fontFamily:"'Playfair Display',serif",fontSize:22,fontWeight:700,color:gold}}>{s.price}€</span>
+                  </div>
+                  <h3 style={{fontSize:15,fontWeight:600,margin:0,color:"#eee"}}>{s.name}</h3>
+                  {s.desc&&<p style={{fontSize:11,color:"#666",margin:0}}>{s.desc}</p>}
+                  <p style={{fontSize:12,color:"#555",margin:0}}>{s.duration} min</p>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {step===2&&(
+          <div>
+            <StepHead n="02" t="Izberi datum" back={()=>go(1)}/>
+            <Tags svc={service}/>
+            <div style={S.dateGrid}>
+              {dates.map((d,i)=>{const sel=date&&fmtDate(date)===fmtDate(d);return(
+                <button key={i} style={{...S.dateCard,...(sel?S.dateActive:{}),animationDelay:`${i*25}ms`}} onClick={()=>{setDate(d);setTimeout(()=>go(3),200)}}>
+                  <span style={S.dateDay}>{dayName(d)}</span>
+                  <span style={{fontFamily:"'Playfair Display',serif",fontSize:22,fontWeight:700,color:sel?"#000":"#fff"}}>{d.getDate()}</span>
+                  <span style={{fontSize:10,color:sel?"#000":"#555"}}>{d.toLocaleDateString("sl-SI",{month:"short"})}</span>
+                </button>
+              )})}
+            </div>
+          </div>
+        )}
+
+        {step===3&&service&&date&&(
+          <div>
+            <StepHead n="03" t="Izberi uro" back={()=>go(2)}/>
+            <Tags svc={service} d={date}/>
+            <div style={S.timeGrid}>
+              {genSlots(service.duration).map(t=>{const taken=isSlotTaken(date,t,service.duration),sel=time===t;return(
+                <button key={t} disabled={taken} style={{...S.timeCard,...(taken?S.timeTaken:{}),...(sel?S.timeActive:{})}} onClick={()=>{if(!taken){setTime(t);setTimeout(()=>go(4),200)}}}>
+                  <span style={{fontSize:16,fontWeight:600,color:taken?"#444":sel?"#000":"#ddd"}}>{t}</span>
+                  {taken&&<span style={{fontSize:9,color:"#555",textTransform:"uppercase",letterSpacing:1}}>zasedeno</span>}
+                </button>
+              )})}
+            </div>
+          </div>
+        )}
+
+        {step===4&&(
+          <div>
+            <StepHead n="04" t="Tvoji podatki" back={()=>go(3)}/>
+            <Tags svc={service} d={date} tm={time}/>
+            <div style={S.form}>
+              <div style={S.inputWrap}><label style={S.label}>Ime in priimek</label><input style={S.input} placeholder="npr. Janez Novak" value={name} onChange={e=>setName(e.target.value)} onFocus={e=>e.target.style.borderColor=gold} onBlur={e=>e.target.style.borderColor="#333"}/></div>
+              <div style={S.inputWrap}><label style={S.label}>Telefonska številka</label><input style={S.input} placeholder="npr. 031 123 456" value={phone} onChange={e=>setPhone(e.target.value)} onFocus={e=>e.target.style.borderColor=gold} onBlur={e=>e.target.style.borderColor="#333"} type="tel"/></div>
+              <button style={{...S.bookBtn,opacity:name.trim()&&phone.trim()&&!isBooking?1:0.4}} disabled={!name.trim()||!phone.trim()||isBooking} onClick={handleBook}>{isBooking?"POŠILJAM...":"POTRDI NAROČILO"}</button>
+              <p style={{fontSize:12,color:"#444",textAlign:"center"}}>Obvestilo bo avtomatsko poslano frizerju</p>
+            </div>
+          </div>
+        )}
+
+        {step===5&&done&&(
+          <div style={{textAlign:"center",paddingTop:48,animation:"fadeUp 0.5s ease"}}>
+            <div style={S.checkCircle}>✓</div>
+            <h2 style={{fontFamily:"'Playfair Display',serif",fontSize:28,fontWeight:700,margin:"0 0 24px"}}>Naročilo potrjeno!</h2>
+            <div style={S.confirmBox}>
+              {[["Storitev",service?.name],["Datum",date&&longDate(date)],["Ura",time],["Cena",`${service?.price}€`]].map(([l,v],i)=>(
+                <div key={l}>{i>0&&<div style={{height:1,background:darkBorder,margin:"4px 0"}}/>}<div style={{display:"flex",justifyContent:"space-between",padding:"8px 0"}}><span style={{fontSize:13,color:"#666"}}>{l}</span><span style={{fontSize:14,color:l==="Cena"?gold:"#ddd",fontWeight:l==="Cena"?700:500}}>{v}</span></div></div>
+              ))}
+            </div>
+            <div style={{marginTop:20,padding:"14px 20px",background:"rgba(46,204,113,0.1)",border:"1px solid rgba(46,204,113,0.2)",borderRadius:14}}><p style={{fontSize:13,color:"#2ecc71",margin:0}}>✅ Frizer je bil obveščen prek Telegram-a</p></div>
+            <p style={{fontSize:13,color:"#555",marginTop:16}}>Vidimo se! 💈</p>
+            <button style={S.resetBtn} onClick={()=>{setStep(0);setSvc(null);setDate(null);setTime(null);setName("");setPhone("");setDone(false);setBk(loadB())}}>NOVA REZERVACIJA</button>
+          </div>
+        )}
+      </div>
+      <footer style={S.footer}>
+        <div style={{height:1,background:`linear-gradient(90deg,transparent,${darkBorder},transparent)`,marginBottom:20}}/>
+        <p style={{fontSize:12,color:"#444",fontWeight:500,letterSpacing:2,margin:0}}>DELUXE BARBER · Ločica ob Savinji</p>
+        <p style={{fontSize:10,color:"#333",margin:"4px 0 0"}}>© 2026</p>
+      </footer>
+    </div>
+  );
+}
+
+function Header({onAdmin,isAdmin}){return(
+  <header style={S.header}>
+    <div style={{display:"flex",alignItems:"center",gap:14,flex:1}}>
+      <img src={LOGO_SRC} alt="Logo" style={{width:44,height:44,borderRadius:12,objectFit:"cover",border:`1.5px solid ${gold}`}}/>
+      <div><h1 style={{fontFamily:"'Playfair Display',serif",fontSize:18,fontWeight:700,margin:0,letterSpacing:3}}>DELUXE BARBER</h1><p style={{fontSize:11,color:"#666",margin:0,letterSpacing:1}}>Premium grooming · Ločica ob Savinji</p></div>
+    </div>
+    <button onClick={onAdmin} style={S.adminToggle}>{isAdmin?"✕":"⚙️"}</button>
+  </header>
+)}
+
+function StepHead({n,t,back}){return(<div style={S.stepHeader}><button style={S.backBtn} onClick={back}>← Nazaj</button><div style={S.stepInfo}><span style={S.stepNum}>{n}</span><h2 style={S.stepTitle}>{t}</h2></div></div>)}
+
+function Tags({svc,d,tm}){return(<div style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:16}}>{svc&&<span style={S.tag}>{svc.icon} {svc.name} · {svc.price}€</span>}{d&&<span style={S.tag}>📅 {d.toLocaleDateString("sl-SI",{day:"numeric",month:"short"})}</span>}{tm&&<span style={S.tag}>🕐 {tm}</span>}</div>)}
+
+const S={
+  container:{minHeight:"100vh",background:dark,color:"#fff",fontFamily:"'Outfit',sans-serif",position:"relative",overflow:"hidden"},
+  content:{padding:"0 20px 32px",minHeight:"60vh"},
+  header:{display:"flex",alignItems:"center",padding:"20px 20px 16px",borderBottom:`1px solid ${darkBorder}`},
+  adminToggle:{background:"none",border:`1px solid ${darkBorder}`,borderRadius:10,width:40,height:40,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",fontSize:16,color:"#666"},
+  heroCard:{position:"relative",padding:"40px 28px 48px",borderRadius:20,background:`linear-gradient(160deg,${darkCard},#1a1a1a)`,border:`1px solid ${darkBorder}`,textAlign:"center",overflow:"hidden",marginBottom:24},
+  heroGlow:{position:"absolute",top:-60,right:-60,width:200,height:200,background:"radial-gradient(circle,rgba(212,175,55,0.12),transparent 70%)",pointerEvents:"none"},
+  heroTitle:{fontFamily:"'Playfair Display',serif",fontSize:36,fontWeight:900,margin:"0 0 16px",lineHeight:1.15,position:"relative"},
+  heroGold:{background:`linear-gradient(135deg,${gold},${goldLight})`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text"},
+  heroDesc:{fontSize:15,color:"#888",lineHeight:1.6,margin:"0 0 32px",fontWeight:300,position:"relative"},
+  ctaBtn:{position:"relative",padding:"16px 40px",background:"transparent",border:`2px solid ${gold}`,borderRadius:60,color:gold,fontSize:14,fontWeight:700,letterSpacing:3,cursor:"pointer",fontFamily:"'Outfit',sans-serif",transition:"all 0.3s"},
+  infoGrid:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10},
+  infoItem:{display:"flex",alignItems:"center",gap:10,padding:"14px 16px",background:darkCard,borderRadius:14,border:`1px solid ${darkBorder}`},
+  infoTxt:{fontSize:13,color:"#bbb"},
+  stepHeader:{paddingTop:24,paddingBottom:8,display:"flex",flexDirection:"column",gap:12},
+  backBtn:{background:"none",border:"none",color:"#666",fontSize:13,cursor:"pointer",fontFamily:"'Outfit',sans-serif",padding:0,textAlign:"left"},
+  stepInfo:{display:"flex",alignItems:"baseline",gap:12},
+  stepNum:{fontFamily:"'Playfair Display',serif",fontSize:32,fontWeight:900,color:gold,opacity:0.3},
+  stepTitle:{fontFamily:"'Playfair Display',serif",fontSize:24,fontWeight:700,margin:0},
+  tag:{padding:"6px 14px",background:"rgba(212,175,55,0.1)",borderRadius:20,fontSize:12,color:gold,border:"1px solid rgba(212,175,55,0.2)",fontWeight:500},
+  svcGrid:{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginTop:16},
+  svcCard:{background:darkCard,border:`1px solid ${darkBorder}`,borderRadius:18,padding:"20px 16px",textAlign:"left",cursor:"pointer",transition:"all 0.25s",fontFamily:"'Outfit',sans-serif",display:"flex",flexDirection:"column",gap:6},
+  svcActive:{borderColor:gold,background:"rgba(212,175,55,0.08)",boxShadow:"0 0 24px rgba(212,175,55,0.12)"},
+  dateGrid:{display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:8,marginTop:16},
+  dateCard:{background:darkCard,border:`1px solid ${darkBorder}`,borderRadius:14,padding:"14px 4px",textAlign:"center",cursor:"pointer",transition:"all 0.2s",display:"flex",flexDirection:"column",gap:4,fontFamily:"'Outfit',sans-serif",animation:"fadeUp 0.3s ease both"},
+  dateActive:{borderColor:gold,background:`linear-gradient(160deg,rgba(212,175,55,0.15),rgba(212,175,55,0.05))`,boxShadow:"0 0 20px rgba(212,175,55,0.1)"},
+  dateDay:{fontSize:10,color:"#666",fontWeight:500,textTransform:"uppercase",letterSpacing:1},
+  timeGrid:{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:10,marginTop:16},
+  timeCard:{background:darkCard,border:`1px solid ${darkBorder}`,borderRadius:14,padding:"16px 8px",textAlign:"center",cursor:"pointer",transition:"all 0.2s",fontFamily:"'Outfit',sans-serif",display:"flex",flexDirection:"column",alignItems:"center",gap:4},
+  timeTaken:{opacity:0.35,cursor:"not-allowed",background:"#0d0d0d"},
+  timeActive:{borderColor:gold,background:"rgba(212,175,55,0.1)",boxShadow:"0 0 20px rgba(212,175,55,0.1)"},
+  form:{marginTop:20,display:"flex",flexDirection:"column",gap:16},
+  inputWrap:{display:"flex",flexDirection:"column",gap:6},
+  label:{fontSize:12,color:"#777",fontWeight:500,letterSpacing:0.5},
+  input:{background:darkCard,border:"1px solid #333",borderRadius:14,padding:"16px 18px",color:"#fff",fontSize:15,fontFamily:"'Outfit',sans-serif",outline:"none",transition:"border-color 0.2s"},
+  bookBtn:{padding:"18px 32px",background:`linear-gradient(135deg,${gold},${goldLight})`,border:"none",borderRadius:60,color:"#000",fontSize:14,fontWeight:700,letterSpacing:3,cursor:"pointer",fontFamily:"'Outfit',sans-serif",marginTop:8,transition:"all 0.2s"},
+  checkCircle:{width:72,height:72,borderRadius:"50%",background:`linear-gradient(135deg,${gold},${goldLight})`,display:"inline-flex",alignItems:"center",justifyContent:"center",fontSize:36,color:"#000",fontWeight:700,marginBottom:20,animation:"checkPop 0.5s ease"},
+  confirmBox:{background:darkCard,border:`1px solid ${darkBorder}`,borderRadius:20,padding:"24px 20px",textAlign:"left"},
+  resetBtn:{marginTop:24,padding:"14px 32px",background:"transparent",border:`1px solid #333`,borderRadius:60,color:"#888",fontSize:12,fontWeight:600,letterSpacing:2,cursor:"pointer",fontFamily:"'Outfit',sans-serif"},
+  adminCard:{display:"flex",alignItems:"center",gap:12,padding:"14px 16px",background:darkCard,border:`1px solid ${darkBorder}`,borderRadius:14,marginBottom:8},
+  cancelBtn:{background:"rgba(220,50,50,0.15)",border:"1px solid rgba(220,50,50,0.3)",borderRadius:10,width:36,height:36,display:"flex",alignItems:"center",justifyContent:"center",color:"#e55",fontSize:14,cursor:"pointer",flexShrink:0},
+  footer:{padding:"24px 20px 32px",textAlign:"center"},
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
